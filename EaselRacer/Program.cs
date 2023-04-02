@@ -1,5 +1,8 @@
 ﻿using Easel;
+using Easel.Core;
 using EaselRacer.GameModes;
+
+Logger.UseConsoleLogs();
 
 GameSettings settings = new GameSettings();
 

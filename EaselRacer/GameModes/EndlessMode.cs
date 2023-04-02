@@ -2,6 +2,7 @@ using System.Numerics;
 using Easel.Entities;
 using Easel.Entities.Components;
 using Easel.Graphics;
+using Easel.GUI;
 using Easel.Math;
 using Easel.Scenes;
 using EaselRacer.Scripts;
@@ -21,30 +22,33 @@ public class EndlessMode : Scene
 
         float screenCenter = Graphics.Renderer.MainTarget.Size.Height / 2f;
         
-        Entity player = new Entity(new Transform()
+        Entity player = new Entity("Player", new Transform()
         {
-            Position = new Vector3T<float>(100, screenCenter, 0),
-            Origin = new Vector3T<float>(new Vector2T<float>(playerSprite.Size.Width, playerSprite.Size.Height) / 2, 0),
-            Scale = new Vector3T<float>(0.15f, 0.15f, 1.0f)
+            Position = new Vector3(100, screenCenter, 0),
+            Origin = new Vector3(new Vector2(playerSprite.Size.Width, playerSprite.Size.Height) / 2, 0),
+            Scale = new Vector3(0.15f, 0.15f, 1.0f)
         });
         player.AddComponent(new Sprite(playerSprite));
         player.AddComponent(new EndlessCar());
-        AddEntity("Player", player);
+        AddEntity(player);
 
         Texture2D roadSprite = Content.Load<Texture2D>("highway");
         
         const float numRoads = 3;
         for (int i = 0; i < numRoads; i++)
         {
-            Entity road = new Entity(new Transform()
+            Entity road = new Entity($"Road{i}", new Transform()
             {
-                Position = new Vector3T<float>(i * roadSprite.Size.Height, screenCenter, -5),
+                Position = new Vector3(i * roadSprite.Size.Height, screenCenter, -5),
                 SpriteRotation = EaselMath.ToRadians(90),
-                Origin = new Vector3T<float>(roadSprite.Size.Width / 2f, roadSprite.Size.Height, 0)
+                Origin = new Vector3(roadSprite.Size.Width / 2f, roadSprite.Size.Height, 0)
             });
             road.AddComponent(new Sprite(roadSprite));
             road.AddComponent(new EndlessRoad());
-            AddEntity($"Road{i}", road);
+            AddEntity(road);
         }
+
+        UI.DefaultStyle.Font = new Font("/home/ollie/Documents/Abel-Regular.ttf");
+        //UI.Add("score", new Label(new Position(Anchor.BottomLeft), "YOUR SCORE JFKGNSDLJFGSKJDFNGJKSDJFNGKJLS", 24));
     }
 }

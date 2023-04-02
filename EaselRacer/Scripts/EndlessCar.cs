@@ -47,13 +47,20 @@ public class EndlessCar : Component
             _velocity -= Deceleration * Time.DeltaTime;
 
         if (Input.AnyKeyDown(Key.A, Key.Left))
+        {
             Transform.SpriteRotation -= MaxRotation * Time.DeltaTime;
+        }
+
         if (Input.AnyKeyDown(Key.D, Key.Right))
             Transform.SpriteRotation += MaxRotation * Time.DeltaTime;
+
+        Transform.SpriteRotation = EaselMath.Clamp(Transform.SpriteRotation, -MathF.PI / 2, MathF.PI / 2);
 
         _velocity = EaselMath.Clamp(_velocity, 0, MaxSpeed);
 
         Transform.Position += Transform.Right * _velocity * Time.DeltaTime;
         Transform.Position.X = _startingX;
+
+        Transform.Position.Y = EaselMath.Clamp(Transform.Position.Y, 114, 610);
     }
 }
